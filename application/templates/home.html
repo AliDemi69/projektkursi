@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %} {% load static %} {% block content %}
+<div id="carouselExampleIndicators" class="carousel slide">
+  <div class="carousel-indicators">
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="0"
+      class="active"
+      aria-current="true"
+      aria-label="Slide 1"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="1"
+      aria-label="Slide 2"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="2"
+      aria-label="Slide 3"
+    ></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        src="{% static 'images/cars1.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        src="{% static 'images/cars2.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        src="{% static 'images/cars3.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+      />
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="container" id="product-cards">
+  <h1 class="text-center" id="products">PRODUCTS</h1>
+  <div class="row" style="margin-top: 30px">
+    {% for product in products %}
+    <div class="col-md-3 py-3 py-md-3">
+      <div class="card">
+        <img src="{{ product.image.url }}" alt="" />
+        <div class="card-body">
+          <h3 class="text-center">{{product.name}}</h3>
+          <p class="text-center">{{product.description}}</p>
+
+          <h2>
+            ${{product.price}}
+            <span
+              ><a
+                href="{% url 'add_to_cart' product.id %}"
+                class="fa-solid fa-cart-shopping add-to-cart text-warning"
+              ></a
+            ></span>
+          </h2>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if products.has_previous %}
+      <li class="page-item">
+        <a class="page-link text-warning" href="?page=1">First</a>
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link text-warning"
+          href="?page={{ products.previous_page_number }}"
+          >Previous</a
+        >
+      </li>
+      {% endif %}
+
+      <li class="page-item disabled">
+        <span class="page-link text-warning"
+          >Page {{ products.number }} of {{ products.paginator.num_pages}}</span
+        >
+      </li>
+
+      {% if products.has_next %}
+      <li class="page-item">
+        <a
+          class="page-link text-warning"
+          href="?page={{ products.next_page_number }}"
+          >Next</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link text-warning"
+          href="?page={{ products.paginator.num_pages }}"
+          >Last</a
+        >
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".add-to-cart").click(function (e) {
+      e.preventDefault();
+      var url = $(this).attr("href");
+      $.ajax({
+        url: url,
+        success: function (response) {
+          var message = response.message;
+          alert(message);
+        },
+        error: function () {
+          alert(
+            "You're not logged in. Log in or Register to add items to cart!"
+          );
+        },
+      });
+    });
+  });
+</script>
+
+{% endblock %}

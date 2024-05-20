@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %} {% load static %} {% block content %}
+<section class="h-100" style="background-color: #eee">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+        </div>
+        {% for item in cart_items %}
+        <div class="card rounded-3 mb-4">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img
+                  src="{{ item.product.image.url }}"
+                  class="img-fluid rounded-3"
+                  alt="Cotton T-shirt"
+                />
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">{{item.product.name}}</p>
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                <form
+                  action="{% url 'update_cart_item' item.id %}"
+                  method="post"
+                >
+                  {% csrf_token %}
+                  <input
+                    type="hidden"
+                    name="quantity"
+                    value="{{ item.quantity }}"
+                  />
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-link px-2"
+                    type="submit"
+                    name="action"
+                    value="decrement"
+                  >
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </form>
+
+                <input
+                  id="quantity-{{item.id}}"
+                  min="0"
+                  name="quantity"
+                  value="{{item.quantity}}"
+                  type="number"
+                  class="form1 form-control form-control-sm"
+                  readonly
+                />
+
+                <form
+                  action="{% url 'update_cart_item' item.id %}"
+                  method="post"
+                >
+                  {% csrf_token %}
+                  <input
+                    type="hidden"
+                    name="quantity"
+                    value="{{ item.quantity }}"
+                  />
+
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-link px-2"
+                    type="submit"
+                    name="action"
+                    value="increment"
+                  >
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </form>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                <h5 class="mb-0">{{item.product.price}}</h5>
+              </div>
+              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <a
+                  href="{% url 'remove_from_cart' item.id %}"
+                  class="text-warning"
+                  ><i class="fas fa-trash fa-lg"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="card">
+          <div class="card-header bg-dark text-white text-center">
+            <h4>Checkout</h4>
+          </div>
+          <div class="card-body">
+            <form action="{% url 'checkout' %}" method="post">
+              {% csrf_token %}
+              <div class="form-group">{{ form.as_p }}</div>
+              <button type="submit" class="btn btn-dark btn-block btn-lg">
+                Proceed to Pay
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

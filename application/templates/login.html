@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %} {% load static %} {% block content %}
+<section class="auth">
+  <div class="auth-content">
+    <h2>Login</h2>
+    <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

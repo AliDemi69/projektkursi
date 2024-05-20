@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %} {% load static %} {% block content %}
+<section class="search-results">
+  <ul>
+    <div class="container" id="product-cards">
+      <div class="row" style="margin-top: 30px">
+        <h1 class="search-query-title">Search Results for "{{ query }}"</h1>
+        {% for item in results %}
+        <div class="col-md-3 py-3 py-md-3">
+          <div class="card">
+            <img src="{{ item.image.url }}" alt="" />
+            <div class="card-body">
+              <h3 class="text-center">{{item.name}}</h3>
+              <p class="text-center">{{item.description}}</p>
+
+              <h2>
+                ${{item.price}}
+                <span
+                  ><li class="fa-solid fa-cart-shopping text-warning"></li
+                ></span>
+              </h2>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <li>No results found.</li>
+        {% endfor %}
+      </div>
+    </div>
+  </ul>
+</section>
+{% endblock %}

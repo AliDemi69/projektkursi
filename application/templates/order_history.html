@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %} {% load static %} {% block content %}
+<section>
+  <div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-10">
+        <div class="rounded">
+          <div class="table-responsive table-borderless">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center"></th>
+                  <th>Order #</th>
+                  <th>Customer Name</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Products</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                {% for order in orders %}
+                <tr class="cell-1">
+                  <td class="text-center"></td>
+                  <td>#{{ order.id }}</td>
+                  <td>{{ order.full_name }}</td>
+                  <td><span class="badge bg-success">Confirmed</span></td>
+                  <td>{{ order.timestamp }}</td>
+                  <td>
+                    {% for key, product in order_products.items %}
+                    <ul>
+                      {% if key == order.id %} {% for name in product %}
+                      <li>{{ name }}</li>
+                      {% endfor %} {% endif %}
+                    </ul>
+                    {% endfor %}
+                  </td>
+                  <td></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

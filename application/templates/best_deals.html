@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %} {% load static %} {% block content %}
+<section class="contact">
+  <div class="container" id="product-cards">
+    <h1 class="text-center">ALL PRODUCTS</h1>
+    <div class="row" style="margin-top: 30px">
+      {% for product in products %}
+      <div class="col-md-3 py-3 py-md-3">
+        <div class="card">
+          <img src="{{ product.image.url }}" alt="" />
+          <div class="card-body">
+            <h3 class="text-center">{{product.name}}</h3>
+            <p class="text-center">{{product.description}}</p>
+
+            <h2>
+              ${{product.price}}
+              <span
+                ><a
+                  href="{% url 'add_to_cart' product.id %}"
+                  class="fa-solid fa-cart-shopping add-to-cart text-warning"
+                ></a
+              ></span>
+            </h2>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".add-to-cart").click(function (e) {
+      e.preventDefault();
+      var url = $(this).attr("href");
+      $.ajax({
+        url: url,
+        success: function (response) {
+          var message = response.message;
+          alert(message);
+        },
+        error: function () {
+          alert(
+            "You're not logged in. Log in or Register to add items to cart!"
+          );
+        },
+      });
+    });
+  });
+</script>
+
+{% endblock %}

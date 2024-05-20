@@ -1,0 +1,125 @@
+<nav class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">HQE CARS</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse justify-content-center"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav me-3 mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'best_deals' %}"
+            >All Products</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Categories
+          </a>
+          <ul class="dropdown-menu">
+            <ul class="list-group">
+              {% for category in categories %}
+
+              <li class="list-group-item">
+                <a
+                  href="{% url 'filter_products_by_category' category.id %}"
+                  class="category-link"
+                  data-category-id="{{ category.id }}"
+                  >{{ category.category_name }}</a
+                >
+              </li>
+              {% endfor %}
+            </ul>
+          </ul>
+        </li>
+      </ul>
+      <form
+        action="{% url 'search' %}"
+        method="GET"
+        class="d-flex"
+        role="search"
+      >
+        <input
+          required
+          name="query"
+          class="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-warning" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button
+      class="btn dropdown-toggle"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="fa-solid fa-cart-shopping icon text-warning"></i> My Cart
+    </button>
+    <ul class="dropdown-menu">
+      {% if cart_items %}
+      <li>
+        <a class="dropdown-item" href="{% url 'view_cart' %}">View Cart</a>
+      </li>
+      {% else %}
+      <li><span class="dropdown-item disabled">No items in cart</span></li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="dropdown">
+    <button
+      class="btn dropdown-toggle"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="fa-solid fa-user icon text-warning"></i>
+      {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      {% else %}
+      <span>Account</span>
+      {% endif %}
+    </button>
+    <ul class="dropdown-menu">
+      {% if user.is_authenticated %}
+      <li>
+        <a class="dropdown-item" href="{% url 'order_history' %}">My Orders</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+      </li>
+      {% else %}
+      <li>
+        <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+      </li>
+      <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<hr class="navbar-hr" />

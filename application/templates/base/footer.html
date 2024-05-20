@@ -1,0 +1,70 @@
+<footer id="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 footer-contact">
+          <h3>HQE CARS</h3>
+          <p>
+            Tirane <br />
+            Albania <br />
+            Shqiperi <br />
+          </p>
+          <strong>Phone:</strong> +1234567890 <br />
+          <strong>Email:</strong> hqe-cars.com <br />
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Usefull Links</h4>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'terms' %}">Terms of service</a></li>
+            <li><a href="{% url 'privacy' %}">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Our Products</h4>
+
+          <ul>
+            {% for category in categories %}
+
+            <li class="list-group-item">
+              <a
+                href="{% url 'filter_products_by_category' category.id %}"
+                class="category-link"
+                data-category-id="{{ category.id }}"
+                >{{ category.category_name }}</a
+              >
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Our Social Networks</h4>
+          <p>Subscribe to our social networks.</p>
+
+          <div class="socail-links mt-3">
+            <a href="https://twitter.com/" target="_blank"
+              ><i class="fa-brands fa-twitter"></i
+            ></a>
+            <a href="https://facebook.com" target="_blank"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></a>
+            <a href="https://instagram.com" target="_blank"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+            <a href="https://skype.com" target="_blank"
+              ><i class="fa-brands fa-skype"></i
+            ></a>
+            <a href="https://linkedin.com" target="_blank"
+              ><i class="fa-brands fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
